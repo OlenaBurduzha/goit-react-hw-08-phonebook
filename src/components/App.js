@@ -4,13 +4,14 @@ import { Route, Routes } from 'react-router-dom';
 import { Layout } from './Layout';
 import { PrivateRoute } from './PrivateRoute';
 import { RestrictedRoute } from './RestrictedRoute';
-import { refreshUser } from 'redux/auth/operations';
-import { useAuth } from 'hooks';
+import { refreshUser } from '../redux/auth/operations';
+import { useAuth } from '../hooks/useAuth';
+import styles from './App.module.css';
 
-const HomePage = lazy(() => import('../page/Home'));
-const RegisterPage = lazy(() => import('../page/Register'));
-const LoginPage = lazy(() => import('../page/Login'));
-const ContactsPage = lazy(() => import('../page/Contacts'));
+const HomePage = lazy(() => import('pages/Home'));
+const ContactsPage = lazy(() => import('pages/Contacts'));
+const LoginPage = lazy(() => import('pages/Login'));
+const RegisterPage = lazy(() => import('pages/Register'));
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -23,31 +24,36 @@ export const App = () => {
   return isRefreshing ? (
     <b>Refreshing user...</b>
   ) : (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
-        <Route
-          path="/register"
-          element={
-            <RestrictedRoute
-              redirectTo="/contacts"
-              component={<RegisterPage />}
-            />
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <RestrictedRoute redirectTo="/contacts" component={<LoginPage />} />
-          }
-        />
-        <Route
-          path="/contacts"
-          element={
-            <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
-          }
-        />
-      </Route>
-    </Routes>
+    <div className={styles.container}>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route
+            path="/register"
+            element={
+              <RestrictedRoute
+                redirectTo="/contacts"
+                component={<RegisterPage />}
+              />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <RestrictedRoute
+                redirectTo="/contacts"
+                component={<LoginPage />}
+              />
+            }
+          />
+          <Route
+            path="/contacts"
+            element={
+              <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
+            }
+          />
+        </Route>
+      </Routes>
+    </div>
   );
 };

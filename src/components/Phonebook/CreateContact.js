@@ -1,60 +1,65 @@
-import { selectContacts } from '../../redux/contacts/selectors';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { selectContacts } from '../../redux/contacts/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContacts } from 'redux/contacts/operations';
-import styles from './ContactEditor.module.css';
+import { addContacts } from '../../redux/contacts/operations';
+import styles from './CreateContact.module.css';
 
-export const ContactEditor = () => {
+const shortid = require('shortid');
+
+export function PhonebookForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
-  const onAddNewContact = (name, number) => {
-    return contacts?.find(contact => contact.name === name)
-      ? alert(`${name} is already in your contacts`)
-      : dispatch(
-          addContacts({
-            name,
-            number,
-          })
-        );
+  const contacts = useSelector(selectContacts);
+
+  const onAddContacts = e => {
+    e.preventDefault();
+
+    const newContact = {
+      id: shortid.generate(),
+      name,
+      number,
+    };
+
+    const normalizeName = newContact.name.toLowerCase();
+    const isNameInContact = contacts.find(
+      newContact => newContact.name.toLowerCase() === normalizeName
+    );
+    isNameInContact
+      ? toast.success(`${newContact.name} is already in contacts`)
+      : dispatch(addContacts(newContact));
+    reset();
   };
 
   const handleChange = e => {
-    const { name, value } = e.target;
+    const { name, value } = e.currentTarget;
     switch (name) {
-      case 'name':
+      case `name`:
         setName(value);
         break;
-      case 'number':
+      case `number`:
         setNumber(value);
         break;
-      default: {
+      default:
         return;
-      }
     }
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    onAddNewContact(name, number);
-    resetInput();
-  };
-
-  const resetInput = () => {
+  const reset = () => {
     setName('');
     setNumber('');
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={onAddContacts}>
       <h3 className={styles.label}>Phonebook</h3>
       <input
         className={styles.input}
         text="text"
         name="name"
-        placeholder="Enter name of contact"
+        placeholder="Name"
         value={name}
         onChange={handleChange}
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -63,7 +68,7 @@ export const ContactEditor = () => {
       />
       <input
         className={styles.input}
-        placeholder="Enter contact number "
+        placeholder="Number "
         type="tel"
         value={number}
         onChange={handleChange}
@@ -77,4 +82,4 @@ export const ContactEditor = () => {
       </button>
     </form>
   );
-};
+}

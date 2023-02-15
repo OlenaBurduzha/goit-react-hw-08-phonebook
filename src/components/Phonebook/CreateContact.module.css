@@ -37,7 +37,5 @@
 }
 
 .btn:hover {
-  background-color: blue;
-  color: white;
-
+background-color: rgb(235, 187, 187);
 }
