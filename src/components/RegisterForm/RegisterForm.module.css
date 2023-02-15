@@ -1,9 +1,15 @@
+.box {
+  display: flex;
+  justify-content: center;
+  min-height: calc(100vh - 50px);
+}
+
 .form {
-  width: 320px;
   padding: 16px;
 }
 
 .label {
+  width: 250px;
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
@@ -14,12 +20,11 @@
   height: 30px;
   text-align: center;
   box-shadow: 0px 4px 4px rgb(0 0 0 / 15%);
-  border-radius: 5px;
+  border-radius: 2px;
   border: none;
- 
 }
 
 .btn:hover,
 :focus {
-  background-color: #f27e30;
+  background-color: rgb(235, 187, 187);
 }

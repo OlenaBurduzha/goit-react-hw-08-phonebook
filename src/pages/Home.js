@@ -4,11 +4,11 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
+    // width: '100%',
   },
   title: {
     fontWeight: 700,
-    fontSize: 48,
+    fontSize: 36,
     textAlign: 'center',
   },
 };

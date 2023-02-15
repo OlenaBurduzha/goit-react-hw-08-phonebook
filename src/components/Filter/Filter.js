@@ -10,16 +10,18 @@ export const Filter = () => {
   };
 
   return (
-    <div className={styles.form}>
-      <p className={styles.label}>Contacts</p>
-      <h4 className={styles.label}>Find your contact by name</h4>
-      <input
-        type="text"
-        className={styles.input}
-        name="filter"
-        placeholder="Search"
-        onChange={e => onChangeFilter(e.target.value)}
-      />
+    <div className={styles.box}>
+      <form className={styles.form}>
+        <p className={styles.label}>Contacts</p>
+        <h4 className={styles.label}>Find your contact by name</h4>
+        <input
+          type="text"
+          className={styles.input}
+          name="filter"
+          placeholder="Search"
+          onChange={e => onChangeFilter(e.target.value)}
+        />
+      </form>
     </div>
   );
 };
